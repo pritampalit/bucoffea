@@ -243,7 +243,9 @@ def setup_gen_candidates(df):
         pdg=df['GenPart_pdgId'],
         abspdg=np.abs(df['GenPart_pdgId']),
         status=df['GenPart_status'],
-        flag = df['GenPart_statusFlags'])
+        flag = df['GenPart_statusFlags'],
+        motherid=df['GenPart_genPartIdxMother']
+    )
     return gen
 
 def setup_gen_jets(df):
@@ -252,9 +254,23 @@ def setup_gen_jets(df):
         pt=df['GenJet_pt'],
         eta=df['GenJet_eta'],
         phi=df['GenJet_phi'],
-        mass=0*df['GenJet_pt']
+        #mass=0*df['GenJet_pt']
+        mass=df['GenJet_mass']
         )
     return genjets
+
+def setup_gen_taus(df):
+    gentaus = JaggedCandidateArray.candidatesfromcounts(
+        df['nGenVisTau'],
+        pt=df['GenVisTau_pt'],
+        eta=df['GenVisTau_eta'],
+        phi=df['GenVisTau_phi'],
+        #mass=0*df['GenVisTau_pt']
+        mass=df['GenVisTau_mass'],
+        status=df['GenVisTau_status'],
+        motherid=df['GenVisTau_genPartIdxMother']
+        )
+    return gentaus
 
 def setup_gen_jets_ak8(df):
     genjets = JaggedCandidateArray.candidatesfromcounts(

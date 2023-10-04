@@ -1,0 +1,939 @@
+default:
+  test: false
+  displaced : true
+  displaced_trigger : HLT_DoubleMediumChargedIsoDisplacedPFTauHPS32_Trk1_eta2p1
+  met_trigger : 
+    - HLT_PFMET120_PFMHT120_IDTight
+    - HLT_PFMETNoMu120_PFMHTNoMu120_IDTight
+    - HLT_PFMET130_PFMHT130_IDTight
+    - HLT_PFMETNoMu130_PFMHTNoMu130_IDTight
+    - HLT_PFMET140_PFMHT140_IDTight
+    - HLT_PFMETNoMu140_PFMHTNoMu140_IDTight
+    - HLT_PFMETTypeOne140_PFMHT140_IDTight
+    - HLT_PFMET120_PFMHT120_IDTight_PFHT60
+    - HLT_PFMETNoMu120_PFMHTNoMu120_IDTight_PFHT60
+    - HLT_PFMETTypeOne120_PFMHT120_IDTight_PFHT60
+  ditau_trigger :
+    chargediso : 
+      - HLT_DoubleMediumChargedIsoPFTauHPS40_Trk1_eta2p1
+      - HLT_DoubleTightChargedIsoPFTauHPS35_Trk1_eta2p1
+    deeptau : 
+      - HLT_DoubleMediumDeepTauPFTauHPS30_L2NN_eta2p1_PFJet60
+      - HLT_DoubleMediumDeepTauPFTauHPS30_L2NN_eta2p1_PFJet75
+      - HLT_DoubleMediumDeepTauPFTauHPS35_L2NN_eta2p1
+
+  selection:
+    signal:
+      dphitau : 1.5
+      dphitau_disp : 1.75
+      minmet : 50 
+      mt2 : 25
+      summt: 200 
+    control:
+      doublemu:
+        mass:
+          min: 60
+          max: 120
+      doubleel:
+        mass:
+          min: 60
+          max: 120
+      singlemu:
+        mt : 160
+      singleel:
+        mt: 160
+        met: 50
+  ak4:
+    jer: true
+    cuts:
+      pt: 30
+      eta: 2.4
+  ak8:
+    jer: true
+  met:
+    jer: true
+    pt: 200
+  tau:
+    cuts:
+      pt: 40
+      eta: 2.1
+    veto:
+      pt: 30
+    branch:
+      id: Tau_decayMode
+      deeptauidvse: Tau_idDeepTau2017v2p1VSe
+      deeptauidvsjet: Tau_idDeepTau2017v2p1VSjet
+      deeptauidvsmu: Tau_idDeepTau2017v2p1VSmu  
+      charge: Tau_charge
+    gencheck: False
+    displaced : 
+      cuts :
+        dxy_sig : 5
+        ip3d : 100
+  muon:
+    cuts:
+      pt : 10
+      eta : 2.4
+      iso : 0.3
+      d0 : 0.045
+      dz : 0.2       
+    branch:
+      id : Muon_looseId
+  electron:
+    cuts:
+      pt : 10
+      eta : 2.5
+      iso : 0.3
+      d0 : 0.045
+      dz : 0.2
+    branch:
+      id: Electron_cutBased      
+  btag:
+    cuts:
+      pt: 30
+      eta: 2.4
+      deepjet:
+        loose: 0.3
+        medium: 0.5
+        tight: 0.7
+    branch:
+      id: Jet_btagDeepFlavB
+  overlap:
+    electron:
+      muon:
+        clean: false
+        dr: 0.3
+    photon:
+      muon:
+        clean: true
+        dr: 0.5
+      electron:
+        clean: true
+        dr: 0.5
+    tau:
+      muon:
+        clean: true
+        dr: 0.4
+      electron:
+        clean: true
+        dr: 0.4
+    ak4:
+      muon:
+        clean: true
+        dr: 0.4
+      electron:
+        clean: true
+        dr: 0.4
+      tau: # applicable to stau analysis
+        clean: true
+        dr: 0.4
+    btag:
+      muon:
+        clean: true
+        dr: 0.4
+      electron:
+        clean: true
+        dr: 0.4
+      photon:
+        clean: true
+        dr: 0.4
+
+#keep it unchanged
+  sf:
+    qcd_ew_nlo_w: # QCD x EW k factor for QCD Z
+      histogram: kfactor_monojet_qcd_ewk
+      file: data/sf/theory/merged_kfactors_wjets.root
+    qcd_ew_nlo_z: # QCD x EW k factor for QCD Z
+      histogram: kfactor_monojet_qcd_ewk
+      file: data/sf/theory/merged_kfactors_zjets.root
+    ewk_nlo_w: # EW k factor for QCD W
+      histogram: kfactor_monojet_ewk
+      file: data/sf/theory/merged_kfactors_wjets.root
+    ewk_nlo_z: # EW k factor for QCD Z
+      histogram: kfactor_monojet_ewk
+      file: data/sf/theory/merged_kfactors_zjets.root
+    ewk_nlo_g: # EW k factor for QCD photon
+      histogram: kfactor_monojet_ewk
+      file: data/sf/theory/merged_kfactors_gjets.root
+    qcd_nlo_w_j: # QCD k factor for QCD W
+      histogram: gen_vpt_combined_wjets_monojet
+      file: data/sf/theory/kfac_2020-12-17_wkfac_v9.root
+    qcd_nlo_w_j_central:
+      histogram: gen_vpt_combined_wjets_monojet_central
+      file: data/sf/theory/kfac_2020-12-17_wkfac_v9.root
+    qcd_nlo_w_v:
+      histogram: gen_vpt_v_mass_combined_wjets_monov_nomass
+      file: data/sf/theory/kfac_2d_2020-12-17_wkfac_v9.root
+    qcd_nlo_w_v_central:
+      histogram: gen_vpt_v_mass_combined_wjets_monov_nomass_central
+      file: data/sf/theory/kfac_2d_2020-12-17_wkfac_v9.root
+    qcd_nlo_dy_j_central: # QCD k factor for QCD Z
+      histogram: gen_vpt_combined_dy_monojet_central
+      file: data/sf/theory/kfac_2020-12-17_wkfac_v9.root
+    qcd_nlo_dy_v_central: # QCD k factor for QCD Z
+      histogram: gen_vpt_v_mass_combined_dy_monov_nomass_central
+      file: data/sf/theory/kfac_2d_2020-12-17_wkfac_v9.root
+    qcd_nlo_znn_j: # QCD k factor for QCD Z
+      histogram: gen_vpt_combined_zjets_monojet
+      file: data/sf/theory/kfac_2020-12-17_wkfac_v9.root
+    qcd_nlo_znn_v: # QCD k factor for QCD Z
+      histogram: gen_vpt_v_mass_combined_zjets_monov_nomass
+      file: data/sf/theory/kfac_2d_2020-12-17_wkfac_v9.root
+    qcd_nlo_g:
+      histogram: gjets_stat1_monojet
+      file: data/sf/theory/monojet_photon_kfac_new.root
+    pileup:
+      mode: nano
+    diele_id_sf:
+      use_average: true
+    dimuo_id_sf:
+      use_average: true
+
+    total_nlo_zz_ptz:
+      histogram: total_nlo_zz_ptz
+      file: data/sf/theory/diboson_kfactors.root
+    total_nlo_ww_ptwp:
+      histogram: total_nlo_ww_ptwp
+      file: data/sf/theory/diboson_kfactors.root
+    total_nlo_wpz_ptwp:
+      histogram: total_nlo_wpz_ptwp
+      file: data/sf/theory/diboson_kfactors.root
+    total_nlo_wmz_ptwm:
+      histogram: total_nlo_wmz_ptwm
+      file: data/sf/theory/diboson_kfactors.root
+    total_nlo_wg_ptg:
+      histogram: total_nlo_wg_ptg
+      file: data/sf/theory/diboson_kfactors.root
+    total_nlo_zg_ptg:
+      histogram: total_nlo_wg_ptg
+      file: data/sf/theory/diboson_kfactors.root
+
+  run:
+    sync: False
+    save:
+      passing: False
+      prescale: 1
+      tree: True
+      ##treeregions: "((sr|cr_.*)_j|inclusive)$"
+      treeregions: "(sr_prompt)|(sr_displaced)$"
+    trigger_study: False
+    veto_study: False
+    photon_id_study: False
+    ele_id_study: False
+    btag_study: False
+    monov: True
+    monovmistag_study: False
+    monovmistag_usepol1: True
+    monoj: True
+    lowmassak8study: false
+    novtagvetostudy: false
+    histogram:
+      ak4_chf0: True
+      ak4_deepcsv: false
+      ak4_eta_phi: False
+      ak4_nef0: True
+      ak4_phi: false
+      ak4_pt0_over_recoil: false
+      ak4_ptraw0: false
+      ak8_tvsqcdmd0: False
+      ak8_wvsqcdmd0: False
+      ak8_wvstqcdmd0: False
+      ak8_zvsqcdmd0: False
+      bjet_eta: false
+      bjet_phi: false
+      bjet_pt: false
+      drelejet: False
+      drmuonjet: False
+      drphotonjet: False
+      electron_eta_phi: False
+      lowmass_ak8_eta: false
+      lowmass_ak8_mass: false
+      lowmass_ak8_phi: false
+      lowmass_ak8_pt: false
+      muon_eta_phi: False
+      npv_nopu: False
+      npv: false
+      npvgood_nopu: False
+      npvgood: false
+      photon_eta_phi: False
+      recoil_dibosonnlo_dn: False
+      recoil_dibosonnlo_up: False
+      recoil_nodibosonnlo: False
+      recoil_nopog: False
+      recoil_nopref: False
+      recoil_nopu: False
+      recoil_notrg: False
+      recoil_veto_weight: False
+      rho_all_nopu: false
+      rho_central_nopu: false
+      vlowmass_ak8_eta: false
+      vlowmass_ak8_mass: false
+      vlowmass_ak8_phi: false
+      vlowmass_ak8_pt: false
+  triggers:
+    ht:
+      gammaeff:
+      - HLT_PFHT1050
+      - HLT_PFHT590
+      - HLT_PFHT680
+      - HLT_PFHT780
+      - HLT_PFHT890
+
+env:
+  test: false
+
+global:
+  test: false
+
+era2022EE:
+  signal:
+    dphitau : 1.5
+    dphitau_disp : 1.75
+    minmet : 50 
+    mt2 : 25
+    summt: 200
+  triggers :
+    met : 
+    - HLT_PFMET120_PFMHT120_IDTight
+    - HLT_PFMETNoMu120_PFMHTNoMu120_IDTight
+    - HLT_PFMET130_PFMHT130_IDTight
+    - HLT_PFMETNoMu130_PFMHTNoMu130_IDTight
+    - HLT_PFMET140_PFMHT140_IDTight
+    - HLT_PFMETNoMu140_PFMHTNoMu140_IDTight
+    - HLT_PFMETTypeOne140_PFMHT140_IDTight
+    - HLT_PFMET120_PFMHT120_IDTight_PFHT60
+    - HLT_PFMETNoMu120_PFMHTNoMu120_IDTight_PFHT60
+    - HLT_PFMETTypeOne120_PFMHT120_IDTight_PFHT60
+    ditau :
+      chargediso : 
+      - HLT_DoubleMediumChargedIsoPFTauHPS40_Trk1_eta2p1
+      - HLT_DoubleTightChargedIsoPFTauHPS35_Trk1_eta2p1
+      deeptau : 
+      - HLT_DoubleMediumDeepTauPFTauHPS30_L2NN_eta2p1_PFJet60
+      - HLT_DoubleMediumDeepTauPFTauHPS30_L2NN_eta2p1_PFJet75
+      - HLT_DoubleMediumDeepTauPFTauHPS35_L2NN_eta2p1
+    displaced : HLT_DoubleMediumChargedIsoDisplacedPFTauHPS32_Trk1_eta2p1
+  ak4:
+    jer: true
+    cuts: 
+      pt: 30
+      eta: 2.4
+    branch:
+      id: Jet_btagDeepFlavB
+      #svidx1: Jet_svIdx1
+      #svidx2: Jet_svIdx2
+  ak8:
+    jer: true
+  met:
+    jer: true
+    triggerpt : 200
+    pt: 50
+  tau:
+    cuts:
+      pt: 40
+      eta: 2.1
+    veto:
+      pt: 30
+    branch:
+      id: Tau_decayMode
+      deeptauidvse: Tau_idDeepTau2017v2p1VSe
+      deeptauidvsjet: Tau_idDeepTau2017v2p1VSjet
+      deeptauidvsmu: Tau_idDeepTau2017v2p1VSmu  
+      #svidx1 : Tau_svIdx1
+      #svidx2 : Tau_svIdx2
+    gencheck: False
+    displaced : 
+      dxy_sig : 5
+      ip3d : 100
+  muon:
+    cuts:
+      pt : 10
+      eta : 2.4
+      iso : 0.3
+      d0 : 0.045
+      dz : 0.2       
+    branch:
+      id : Muon_looseId
+  electron:
+    cuts:
+      pt : 10
+      eta : 2.5
+      iso : 0.3
+      d0 : 0.045
+      dz : 0.2
+      convsafe : true
+      mis_trk_hits : 1
+    branch:
+      id: Electron_cutBased      
+  btag:
+    cuts:
+      pt: 30
+      eta: 2.4
+      deepjet:
+        loose: 0.3
+        medium: 0.5
+        tight: 0.7
+  overlap:
+    electron:
+      muon:
+        clean: false
+        dr: 0.3
+    photon:
+      muon:
+        clean: true
+        dr: 0.5
+      electron:
+        clean: true
+        dr: 0.5
+    tau:
+      muon:
+        clean: true
+        dr: 0.4
+      electron:
+        clean: true
+        dr: 0.4
+    ak4:
+      muon:
+        clean: true
+        dr: 0.4
+      electron:
+        clean: true
+        dr: 0.4
+      tau: # applicable to stau analysis
+        clean: true
+        dr: 0.4
+    btag:
+      muon:
+        clean: true
+        dr: 0.4
+      electron:
+        clean: true
+        dr: 0.4
+      photon:
+        clean: true
+        dr: 0.4
+
+
+era2016:
+  triggers:
+    met:
+      - HLT_PFMETNoMu90_PFMHTNoMu90_IDTight
+      - HLT_PFMETNoMu100_PFMHTNoMu100_IDTight
+      - HLT_PFMETNoMu110_PFMHTNoMu110_IDTight
+      - HLT_PFMETNoMu120_PFMHTNoMu120_IDTight
+    electron:
+      single:
+        - HLT_Ele27_WPTight_Gsf
+        - HLT_Ele105_CaloIdVT_GsfTrkIdT
+      single_backup: []
+    muon:
+      single:
+        - HLT_IsoMu27
+    photon:
+      single:
+        - HLT_Photon165_HE10
+        - HLT_Photon175
+  btag:
+    algo: csvv2
+    wp: medium
+    cuts:
+      deepcsv: # https://twiki.cern.ch/twiki/bin/viewauth/CMS/BtagRecommendation2016Legacy
+        loose : 0.2217
+        medium: 0.6321
+        tight: 0.8953
+      csvv2:
+        loose:  0.5426
+        medium: 0.8484
+        tight: 0.9535
+  wtag: # https://twiki.cern.ch/twiki/bin/viewauth/CMS/DeepAKXTagging#DeepAK8_V2_Working_Points_and_Sc
+    loose: 0.475
+    medium: 0.918
+    tight: 0.960
+    loosemd: 0.274
+    tightmd: 0.828
+  electron:
+    branch:
+      id: Electron_cutBased_Sum16
+  photon:
+    branch:
+      id: Photon_cutBased
+  tau:
+    branch:
+      id: Tau_idDecayMode
+      iso: Tau_idMVAoldDM
+  sf:
+    deepcsv:
+      file: data/sf/btag/DeepCSV_102XSF_WP_V1.csv
+    qcd_nlo_w_2016: # QCD k factor for QCD W
+      histogram: kfactor_monojet_qcd
+      file: data/sf/theory/merged_kfactors_wjets.root
+    qcd_nlo_z_2016: # QCD k factor for QCD Z
+      histogram: kfactor_monojet_qcd
+      file: data/sf/theory/merged_kfactors_zjets.root
+
+    ele_reco:
+      histogram: EGamma_SF2D
+      file: data/sf/egamma/EGM2D_BtoH_GT20GeV_RecoSF_Legacy2016.root
+    ele_id_loose:
+      histogram: EGamma_SF2D
+      file: data/sf/egamma/2016_ElectronWPVeto_Fall17V2.root
+    ele_id_tight:
+      histogram: EGamma_SF2D
+      file: data/sf/egamma/2016LegacyReReco_ElectronTight_Fall17V2.root
+    photon:
+      usetnp: False
+    photon_id_tight:
+      histogram: EGamma_SF2D
+      file: data/sf/egamma/Fall17V2_2016_Medium_photons.root
+    photon_csev: # https://twiki.cern.ch/twiki/bin/view/CMS/EgammaIDRecipesRun2#Electron_Veto_CSEV_or_pixel_seed
+      histogram: Scaling_Factors_CSEV_R9_Inclusive
+      file: data/sf/egamma/ScalingFactors_80X_Summer16_rename.root
+
+    muon_id_loose:
+      histogram: NUM_LooseID_DEN_genTracks_pt_abseta
+      file: data/sf/muon/2017_RunBCDEF_SF_ID.root
+    muon_id_tight:
+      histogram: NUM_TightID_DEN_genTracks_pt_abseta
+      file: data/sf/muon/2017_RunBCDEF_SF_ID.root
+    muon_iso_tight:
+      histogram: NUM_TightRelIso_DEN_TightIDandIPCut_pt_abseta
+      file: data/sf/muon/2017_RunBCDEF_SF_ISO.root
+    muon_iso_loose:
+      histogram: NUM_LooseRelIso_DEN_LooseID_pt_abseta
+      file: data/sf/muon/2017_RunBCDEF_SF_ISO.root
+
+    tau_id:
+      histogram: tau_sf_VLoose_2016_cent
+      file: data/sf/tau/tau_sf.root
+    tau_id_up:
+      histogram: tau_sf_VLoose_2016_up
+      file: data/sf/tau/tau_sf.root
+    tau_id_dn:
+      histogram: tau_sf_VLoose_2016_down
+      file: data/sf/tau/tau_sf.root
+
+    pileup:
+      histogram: "sf2017_nominal"
+      file: "data/sf/pileup/pileup.root"
+    pileup_up:
+      histogram: "sf2017_up"
+      file: "data/sf/pileup/pileup.root"
+    pileup_down:
+      histogram: "sf2017_down"
+      file: "data/sf/pileup/pileup.root"
+    trigger_met:
+        histogram: 120pfht_hltmu_1m_2017
+        file: data/sf/trigger/met_trigger_sf.root
+    trigger_electron:
+      histogram: EGamma_SF2D
+      file: data/sf/trigger/electron_trigger_sf_2017.root
+    trigger_electron_eff_data:
+      histogram: EGamma_EffData2D
+      file: data/sf/trigger/electron_trigger_sf_2017.root
+    trigger_electron_eff_mc:
+      histogram: EGamma_EffMC2D
+      file: data/sf/trigger/electron_trigger_sf_2017.root
+  filters:
+    data:
+      - Flag_goodVertices
+      - Flag_globalSuperTightHalo2016Filter
+      - Flag_HBHENoiseFilter
+      - Flag_HBHENoiseIsoFilter
+      - Flag_EcalDeadCellTriggerPrimitiveFilter
+      - Flag_BadPFMuonFilter
+      - Flag_eeBadScFilter
+    mc:
+      - Flag_goodVertices
+      - Flag_globalSuperTightHalo2016Filter
+      - Flag_HBHENoiseFilter
+      - Flag_HBHENoiseIsoFilter
+      - Flag_EcalDeadCellTriggerPrimitiveFilter
+      - Flag_BadPFMuonFilter
+
+era2017:
+  triggers:
+    met:
+      - HLT_PFMETNoMu120_PFMHTNoMu120_IDTight # 40.658837867 fb-1
+      - HLT_PFMETNoMu120_PFMHTNoMu120_IDTight_PFHT60
+    electron:
+      single:
+        - HLT_Ele35_WPTight_Gsf
+        - HLT_Ele115_CaloIdVT_GsfTrkIdT
+      single_backup:
+        - HLT_Photon200
+    muon:
+      single:
+        - HLT_IsoMu27
+    photon:
+      single:
+        - HLT_Photon200
+  filters:
+    data:
+      - Flag_goodVertices
+      - Flag_globalSuperTightHalo2016Filter
+      - Flag_HBHENoiseFilter
+      - Flag_HBHENoiseIsoFilter
+      - Flag_EcalDeadCellTriggerPrimitiveFilter
+      - Flag_BadPFMuonFilter
+      - Flag_eeBadScFilter
+      - Flag_ecalBadCalibFilterV2
+    mc:
+      - Flag_goodVertices
+      - Flag_globalSuperTightHalo2016Filter
+      - Flag_HBHENoiseFilter
+      - Flag_HBHENoiseIsoFilter
+      - Flag_EcalDeadCellTriggerPrimitiveFilter
+      - Flag_BadPFMuonFilter
+      - Flag_ecalBadCalibFilterV2
+  btag:
+    algo: deepcsv
+    wp: medium
+    cuts:
+      csvv2: # https://twiki.cern.ch/twiki/bin/viewauth/CMS/BtagRecommendation94X
+        loose : 0.5803
+        medium : 0.8838
+        tight : 0.9693
+      deepcsv: # https://twiki.cern.ch/twiki/bin/viewauth/CMS/BtagRecommendation94X
+        loose : 0.1522
+        medium: 0.4941
+        tight: 0.8001
+  wtag: # https://twiki.cern.ch/twiki/bin/viewauth/CMS/DeepAKXTagging#DeepAK8_V2_Working_Points_and_Sc
+    loose: 0.467
+    medium: 0.925
+    tight: 0.964
+    loosemd: 0.258
+    tightmd: 0.838
+  sf:
+    deepcsv:
+      file: data/sf/btag/DeepCSV_94XSF_WP_V4_B_F.csv
+    ele_reco:
+      histogram: EGamma_SF2D
+      file: data/sf/egamma/2017_egammaEffi_txt_EGM2D_runBCDEF_passingRECO.root
+    ele_reco_pt_lt_20:
+      histogram: EGamma_SF2D
+      file: data/sf/egamma/2017_egammaEffi_txt_EGM2D_runBCDEF_passingRECO_lowEt.root
+    ele_id_loose: # updated to our own measurement as approved by EGamma group: https://indico.cern.ch/event/924522/
+      histogram: EGamma_SF2D
+      file: data/sf/egamma/2017_ElectronWPVeto_Fall17V2_BU.root
+    ele_id_tight: # updated to our own measurement as approved by EGamma group: https://indico.cern.ch/event/924522/
+      histogram: EGamma_SF2D
+      file: data/sf/egamma/2017_ElectronTight_Fall17V2_BU.root
+
+    photon:
+      usetnp: True
+    photon_id_tight:
+      histogram: EGamma_SF2D
+      file: data/sf/egamma/2017_PhotonsMedium_capped.root
+    photon_id_tight_tnp:
+      histogram: photon_medium_id_sf_2017
+      file: data/sf/egamma/photon_medium_id_sf_v0.root
+    photon_id_tight_tnp_extrap_unc_slope:
+      histogram: photon_medium_id_extrap_unc_2017
+      file: data/sf/egamma/photon_medium_id_sf_v0.root
+    photon_csev: # https://twiki.cern.ch/twiki/bin/view/CMS/EgammaIDRecipesRun2#Electron_Veto_CSEV_or_pixel_seed
+      histogram: Medium_ID
+      file: data/sf/egamma/CSEV_ScaleFactors_2017.root
+
+    muon_id_loose:
+      histogram: NUM_LooseID_DEN_genTracks_pt_abseta
+      file: data/sf/muon/2017_RunBCDEF_SF_ID.root
+    muon_id_tight:
+      histogram: NUM_TightID_DEN_genTracks_pt_abseta
+      file: data/sf/muon/2017_RunBCDEF_SF_ID.root
+    muon_iso_tight:
+      histogram: NUM_TightRelIso_DEN_TightIDandIPCut_pt_abseta
+      file: data/sf/muon/2017_RunBCDEF_SF_ISO.root
+    muon_iso_loose:
+      histogram: NUM_LooseRelIso_DEN_LooseID_pt_abseta
+      file: data/sf/muon/2017_RunBCDEF_SF_ISO.root
+
+    tau_id:
+      histogram: tau_sf_VLoose_2017_cent
+      file: data/sf/tau/tau_sf.root
+    tau_id_up:
+      histogram: tau_sf_VLoose_2017_up
+      file: data/sf/tau/tau_sf.root
+    tau_id_dn:
+      histogram: tau_sf_VLoose_2017_down
+      file: data/sf/tau/tau_sf.root
+
+    wtag_loose: #https://twiki.cern.ch/twiki/bin/viewauth/CMS/DeepAKXTagging#DeepAK8_V2_Working_Points_and_Sc
+      histogram: WTag_2017_loose_ak8_pt
+      file: data/sf/ak8/wtag_eff_SF.root
+    wtag_loosemd:
+      histogram: WTag_2017_loosemd_ak8_pt
+      file: data/sf/ak8/wtag_eff_SF.root
+    wtag_medium: #https://twiki.cern.ch/twiki/bin/viewauth/CMS/DeepAKXTagging#DeepAK8_V2_Working_Points_and_Sc
+      histogram: WTag_2017_medium_ak8_pt
+      file: data/sf/ak8/wtag_eff_SF.root
+    wtag_tight:
+      histogram: WTag_2017_tight_ak8_pt
+      file: data/sf/ak8/wtag_eff_SF.root
+    wtag_tightmd:
+      histogram: WTag_2017_tightmd_ak8_pt
+      file: data/sf/ak8/wtag_eff_SF.root
+
+    # for W/Z regions
+    wtag_mistag_w_loose:
+      histogram: mistag_SF_w_loose_2017
+      file: data/sf/ak8/wtag_mistag_SF.root
+    wtag_mistag_w_tight:
+      histogram: mistag_SF_w_tight_2017
+      file: data/sf/ak8/wtag_mistag_SF.root
+    wtag_mistag_z_loose:
+      histogram: mistag_SF_z_loose_2017
+      file: data/sf/ak8/wtag_mistag_SF.root
+    wtag_mistag_z_tight:
+      histogram: mistag_SF_z_tight_2017
+      file: data/sf/ak8/wtag_mistag_SF.root
+    wtag_mistag_w_loose_pol1:
+      histogram: mistag_SF_w_loose_2017_pol1
+      file: data/sf/ak8/wtag_mistag_SF.root
+    wtag_mistag_w_tight_pol1:
+      histogram: mistag_SF_w_tight_2017_pol1
+      file: data/sf/ak8/wtag_mistag_SF.root
+    wtag_mistag_z_loose_pol1:
+      histogram: mistag_SF_z_loose_2017_pol1
+      file: data/sf/ak8/wtag_mistag_SF.root
+    wtag_mistag_z_tight_pol1:
+      histogram: mistag_SF_z_tight_2017_pol1
+      file: data/sf/ak8/wtag_mistag_SF.root
+    # for photon region
+    wtag_mistag_g_loose:
+      histogram: mistag_SF_g_loose_2017
+      file: data/sf/ak8/wtag_mistag_SF.root
+    wtag_mistag_g_tight:
+      histogram: mistag_SF_g_tight_2017
+      file: data/sf/ak8/wtag_mistag_SF.root
+    wtag_mistag_g_loose_pol1:
+      histogram: mistag_SF_g_loose_2017_pol1
+      file: data/sf/ak8/wtag_mistag_SF.root
+    wtag_mistag_g_tight_pol1:
+      histogram: mistag_SF_g_tight_2017_pol1
+      file: data/sf/ak8/wtag_mistag_SF.root
+
+    pileup:
+      histogram: "sf2017_nominal"
+      file: "data/sf/pileup/pileup.root"
+    pileup_up:
+      histogram: "sf2017_up"
+      file: "data/sf/pileup/pileup.root"
+    pileup_down:
+      histogram: "sf2017_down"
+      file: "data/sf/pileup/pileup.root"
+
+    trigger_met:
+      histogram: 120pfht_hltmu_1m_2017
+      file: data/sf/trigger/met_trigger_sf.root
+    trigger_electron: # our own measurement for the combined trigger path as approved by EGamma group: https://indico.cern.ch/event/924522/
+      histogram: EGamma_SF2D
+      file: data/sf/trigger/electron_trigger_sf_2017.root
+    trigger_electron_eff_data:
+      histogram: EGamma_EffData2D
+      file: data/sf/trigger/electron_trigger_sf_2017.root
+    trigger_electron_eff_mc:
+      histogram: EGamma_EffMC2D
+      file: data/sf/trigger/electron_trigger_sf_2017.root
+
+era2018:
+  triggers:
+    met:
+      - HLT_PFMETNoMu120_PFMHTNoMu120_IDTight # 59.735969368 fb-1
+      - HLT_PFMETNoMu120_PFMHTNoMu120_IDTight_PFHT60
+    electron:
+      single:
+        - HLT_Ele32_WPTight_Gsf
+        - HLT_Ele115_CaloIdVT_GsfTrkIdT
+      single_backup:
+        - HLT_Photon200
+    muon:
+      single:
+        - HLT_IsoMu24
+    photon:
+      single:
+        - HLT_Photon200
+  filters:
+    data:
+      - Flag_goodVertices
+      - Flag_globalSuperTightHalo2016Filter
+      - Flag_HBHENoiseFilter
+      - Flag_HBHENoiseIsoFilter
+      - Flag_EcalDeadCellTriggerPrimitiveFilter
+      - Flag_BadPFMuonFilter
+      - Flag_eeBadScFilter
+      - Flag_ecalBadCalibFilterV2
+    mc:
+      - Flag_goodVertices
+      - Flag_globalSuperTightHalo2016Filter
+      - Flag_HBHENoiseFilter
+      - Flag_HBHENoiseIsoFilter
+      - Flag_EcalDeadCellTriggerPrimitiveFilter
+      - Flag_BadPFMuonFilter
+      - Flag_ecalBadCalibFilterV2
+
+  btag:
+    algo: deepcsv
+    wp: medium
+    cuts:
+      deepcsv: # https://twiki.cern.ch/twiki/bin/viewauth/CMS/BtagRecommendation102X
+        loose : 0.1241
+        medium: 0.4184
+        tight: 0.7527
+  wtag: # https://twiki.cern.ch/twiki/bin/viewauth/CMS/DeepAKXTagging#DeepAK8_V2_Working_Points_and_Sc
+    loose: 0.458
+    medium: 0.918
+    tight: 0.961
+    loosemd: 0.245
+    tightmd: 0.806
+  sf:
+    deepcsv:
+      file: data/sf/btag/DeepCSV_102XSF_WP_V1.csv
+
+    ele_reco:
+      histogram: EGamma_SF2D
+      file: data/sf/egamma/2018_egammaEffi_txt_EGM2D_updatedAll.root
+    ele_id_loose: # updated to our own measurement as approved by EGamma group: https://indico.cern.ch/event/924522/
+      histogram: EGamma_SF2D
+      file: data/sf/egamma/2018_ElectronWPVeto_Fall17V2_BU.root
+    ele_id_tight: # updated to our own measurement as approved by EGamma group: https://indico.cern.ch/event/924522/
+      histogram: EGamma_SF2D
+      file: data/sf/egamma/2018_ElectronTight_Fall17V2_BU.root
+    photon:
+      usetnp: True
+    photon_id_tight:
+      histogram: EGamma_SF2D
+      file: data/sf/egamma/2018_PhotonsMedium_capped.root
+    photon_id_tight_tnp:
+      histogram: photon_medium_id_sf_2018
+      file: data/sf/egamma/photon_medium_id_sf_v0.root
+    photon_id_tight_tnp_extrap_unc_slope:
+      histogram: photon_medium_id_extrap_unc_2018
+      file: data/sf/egamma/photon_medium_id_sf_v0.root
+    photon_csev: # https://twiki.cern.ch/twiki/bin/view/CMS/EgammaIDRecipesRun2#Electron_Veto_CSEV_or_pixel_seed
+      histogram: eleVeto_SF
+      file: data/sf/egamma/CSEV_2018.root
+
+    muon_id_loose:
+      histogram: NUM_LooseID_DEN_TrackerMuons_pt_abseta
+      file: data/sf/muon/2018_RunABCD_SF_ID.root
+    muon_id_loose_stat:
+      histogram: NUM_LooseID_DEN_TrackerMuons_pt_abseta_stat
+      file: data/sf/muon/2018_RunABCD_SF_ID.root
+    muon_id_loose_syst:
+      histogram: NUM_LooseID_DEN_TrackerMuons_pt_abseta_syst
+      file: data/sf/muon/2018_RunABCD_SF_ID.root
+    muon_id_tight:
+      histogram: NUM_TightID_DEN_TrackerMuons_pt_abseta
+      file: data/sf/muon/2018_RunABCD_SF_ID.root
+    muon_id_tight_stat:
+      histogram: NUM_TightID_DEN_TrackerMuons_pt_abseta_stat
+      file: data/sf/muon/2018_RunABCD_SF_ID.root
+    muon_id_tight_syst:
+      histogram: NUM_TightID_DEN_TrackerMuons_pt_abseta_syst
+      file: data/sf/muon/2018_RunABCD_SF_ID.root
+    muon_iso_tight:
+      histogram: NUM_TightRelIso_DEN_TightIDandIPCut_pt_abseta
+      file: data/sf/muon/2018_RunABCD_SF_ISO.root
+    muon_iso_tight_stat:
+      histogram: NUM_TightRelIso_DEN_TightIDandIPCut_pt_abseta_stat
+      file: data/sf/muon/2018_RunABCD_SF_ISO.root
+    muon_iso_tight_sys:
+      histogram: NUM_TightRelIso_DEN_TightIDandIPCut_pt_abseta_syst
+      file: data/sf/muon/2018_RunABCD_SF_ISO.root
+    muon_iso_loose:
+      histogram: NUM_LooseRelIso_DEN_LooseID_pt_abseta
+      file: data/sf/muon/2018_RunABCD_SF_ISO.root
+    muon_iso_loose_stat:
+      histogram: NUM_LooseRelIso_DEN_LooseID_pt_abseta_stat
+      file: data/sf/muon/2018_RunABCD_SF_ISO.root
+    muon_iso_loose_sys:
+      histogram: NUM_LooseRelIso_DEN_LooseID_pt_abseta_syst
+      file: data/sf/muon/2018_RunABCD_SF_ISO.root
+
+    tau_id:
+      histogram: tau_sf_VLoose_2018_cent
+      file: data/sf/tau/tau_sf.root
+    tau_id_up:
+      histogram: tau_sf_VLoose_2018_up
+      file: data/sf/tau/tau_sf.root
+    tau_id_dn:
+      histogram: tau_sf_VLoose_2018_down
+      file: data/sf/tau/tau_sf.root
+
+    wtag_loose: #https://twiki.cern.ch/twiki/bin/viewauth/CMS/DeepAKXTagging#DeepAK8_V2_Working_Points_and_Sc
+      histogram: WTag_2018_loose_ak8_pt
+      file: data/sf/ak8/wtag_eff_SF.root
+    wtag_loosemd:
+      histogram: WTag_2018_loosemd_ak8_pt
+      file: data/sf/ak8/wtag_eff_SF.root
+    wtag_medium: #https://twiki.cern.ch/twiki/bin/viewauth/CMS/DeepAKXTagging#DeepAK8_V2_Working_Points_and_Sc
+      histogram: WTag_2018_medium_ak8_pt
+      file: data/sf/ak8/wtag_eff_SF.root
+    wtag_tight:
+      histogram: WTag_2018_tight_ak8_pt
+      file: data/sf/ak8/wtag_eff_SF.root
+    wtag_tightmd:
+      histogram: WTag_2018_tightmd_ak8_pt
+      file: data/sf/ak8/wtag_eff_SF.root
+
+    # for W/Z regions
+    wtag_mistag_w_loose:
+      histogram: mistag_SF_w_loose_2018
+      file: data/sf/ak8/wtag_mistag_SF.root
+    wtag_mistag_w_tight:
+      histogram: mistag_SF_w_tight_2018
+      file: data/sf/ak8/wtag_mistag_SF.root
+    wtag_mistag_z_loose:
+      histogram: mistag_SF_z_loose_2018
+      file: data/sf/ak8/wtag_mistag_SF.root
+    wtag_mistag_z_tight:
+      histogram: mistag_SF_z_tight_2018
+      file: data/sf/ak8/wtag_mistag_SF.root
+    wtag_mistag_w_loose_pol1:
+      histogram: mistag_SF_w_loose_2018_pol1
+      file: data/sf/ak8/wtag_mistag_SF.root
+    wtag_mistag_w_tight_pol1:
+      histogram: mistag_SF_w_tight_2018_pol1
+      file: data/sf/ak8/wtag_mistag_SF.root
+    wtag_mistag_z_loose_pol1:
+      histogram: mistag_SF_z_loose_2018_pol1
+      file: data/sf/ak8/wtag_mistag_SF.root
+    wtag_mistag_z_tight_pol1:
+      histogram: mistag_SF_z_tight_2018_pol1
+      file: data/sf/ak8/wtag_mistag_SF.root
+    # for photon region
+    wtag_mistag_g_loose:
+      histogram: mistag_SF_g_loose_2018
+      file: data/sf/ak8/wtag_mistag_SF.root
+    wtag_mistag_g_tight:
+      histogram: mistag_SF_g_tight_2018
+      file: data/sf/ak8/wtag_mistag_SF.root
+    wtag_mistag_g_loose_pol1:
+      histogram: mistag_SF_g_loose_2018_pol1
+      file: data/sf/ak8/wtag_mistag_SF.root
+    wtag_mistag_g_tight_pol1:
+      histogram: mistag_SF_g_tight_2018_pol1
+      file: data/sf/ak8/wtag_mistag_SF.root
+
+    pileup:
+      histogram: "sf2018_nominal"
+      file: "data/sf/pileup/pileup.root"
+    pileup_up:
+      histogram: "sf2018_up"
+      file: "data/sf/pileup/pileup.root"
+    pileup_down:
+      histogram: "sf2018_down"
+      file: "data/sf/pileup/pileup.root"
+
+    trigger_met:
+      histogram: 120pfht_hltmu_1m_2018
+      file: data/sf/trigger/met_trigger_sf.root
+    trigger_electron: # our own measurement for the combined trigger path as approved by EGamma group: https://indico.cern.ch/event/924522/
+      histogram: EGamma_SF2D
+      file: data/sf/trigger/electron_trigger_sf_2018.root
+    trigger_electron_eff_data:
+      histogram: EGamma_EffData2D
+      file: data/sf/trigger/electron_trigger_sf_2018.root
+    trigger_electron_eff_mc:
+      histogram: EGamma_EffMC2D
+      file: data/sf/trigger/electron_trigger_sf_2018.root

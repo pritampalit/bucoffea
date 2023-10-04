@@ -19,17 +19,48 @@ def debug_plot_output(output, region='inclusive', outdir='out', logscaley=True):
                 continue
         except:
             continue
+
+        if ((region == "sr_prompt") & (name == "tau_pt")) :
+            print(f'region', region)
+            print(f'name', name)
         try:
             h = output[name].integrate("region",region)
+            #print("h : ", h)
+            #assert(h)
+            #print("h is asserted")
         except:
             continue
-        print(name)
+        ##print(name)
         try:
+            #print("anything")
+            #print("h type : ",type(h))
+            ##x, y = h.to_numpy
+            #print("x : ", x)
+            #h = h.compute()
+            #print(h)
+            #hmean = h.accumulators.Sum()
+            #print("anything2")
+            #print("mean : ", hmean)
+            #print("anything 3")
+            
+            fig, ax = plt.subplots(1, 1, figsize=(7,5))
+            '''
             fig, ax, _ = hist.plot1d(
                 h,
                 overlay='dataset',
                 overflow='all',
+                clear = False
                 )
+            '''
+            hist.plot1d(
+                h,
+                overlay='dataset',
+                overflow='all',
+                clear = False
+            )
+
+            #assert(fig)
+            print("h is plotted")
         except:
             continue
         fig.suptitle(f'{region}, {name}')
@@ -40,4 +71,5 @@ def debug_plot_output(output, region='inclusive', outdir='out', logscaley=True):
         else:
             ax.set_ylim(0.1, 1e3)
         fig.savefig(os.path.join(outdir, f"{region}_{name}.pdf"))
+        print("figure saved successfully")
         plt.close(fig)

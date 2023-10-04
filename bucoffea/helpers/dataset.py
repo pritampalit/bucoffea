@@ -53,6 +53,15 @@ def extract_year(dataset):
             return 2010+x
     raise RuntimeError("Could not determine dataset year")
 
+def extract_year_run3(dataset):
+    for x in [2,3]:
+        #if (x==2): # implement the EE
+        #    for y in ["preEE","postEE"]:
+        if f"202{x}" in dataset:
+            return 2020+x
+    raise RuntimeError("Could not determine dataset year for Run3")
+
+
 def rand_dataset_dict(keys, year):
     '''
     Creates a map of dataset names -> short dataset names for randomized parameter samples

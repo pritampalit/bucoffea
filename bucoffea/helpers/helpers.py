@@ -1,5 +1,6 @@
 from bucoffea.helpers.paths import bucoffea_path
 import numpy as np
+import random
 
 def dphi(phi1, phi2):
     """Calculates delta phi between objects"""
@@ -31,8 +32,37 @@ def min_dphi_jet_met(jets, met_phi, njet=4, ptmin=30, etamax=2.4):
     return dphi(jets.phi, met_phi).min()
 
 def mt(pt1, phi1, pt2, phi2):
-    """Calculates MT of two objects"""
+    """Calculates MT of two objects : 1,2 = met and other particle"""
     return np.sqrt(2 * pt1 * pt2 * (1-np.cos(phi1-phi2)))
+
+def mt2(met_pt, met_phi, pt1, phi1, pt2, phi2):
+
+    list_max_mt = []
+    max_mt = 0
+    for i in np.arange(0, 10000):
+        """Calculates MT2 : 1,2 = two final state particles other than met"""
+        chi1_pt = random.uniform(0,met_pt)
+        chi2_pt = random.uniform(0,met_pt)
+        chi1_phi = random.uniform(-np.pi, np.pi)
+        chi2_phi = random.uniform(-np.pi, np.pi)    
+        
+        if (((chi1_pt*np.cos(chi1_phi) + chi2_pt*np.cos(chi2_phi) == met_pt*np.cos(met_phi).any()) & (chi1_pt*np.sin(chi1_phi) + chi2_pt*np.sin(chi2_phi) == met_pt*np.sin(met_phi)).any()).any()) : 
+            minchi1pt = chi1_pt
+            minchi2pt = chi2_pt
+            minchi1phi = chi1_phi
+            minchi2phi = chi2_phi
+        
+            chi_mt11 = mt(pt1, phi1, minchi1pt, minchi1phi)
+            chi_mt12 = mt(pt1, phi1, minchi2pt, minchi2phi)
+            chi_mt21 = mt(pt2, phi2, minchi1pt, minchi1phi)
+            chi_mt22 = mt(pt2, phi2, minchi2pt, minchi2phi)
+        
+            list_mt = [chi_mt11, chi_mt12, chi_mt21, chi_mt22]
+            max_mt = max(list_mt)
+
+    list_max_mt.append(max_mt)
+    return min(list_max_mt)
+
 
 def pt_phi_to_px_py(pt, phi):
     """Convert pt and phi to px and py."""

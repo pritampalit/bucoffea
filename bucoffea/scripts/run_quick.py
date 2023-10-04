@@ -1,11 +1,13 @@
 #!/usr/bin/env python
 
 from bucoffea.helpers.dataset import extract_year
+from bucoffea.helpers.dataset import extract_year_run3
 from bucoffea.processor.executor import run_uproot_job_nanoaod
 from bucoffea.helpers.cutflow import print_cutflow
 from coffea.util import save
 import coffea.processor as processor
 import argparse
+
 
 def parse_commandline():
 
@@ -17,13 +19,27 @@ def parse_commandline():
 
 def main():
 
+    '''
     fileset = {
         "VBF_HToInvisible_M125_pow_pythia8_2017" : [
             "root://cmsxrootd.fnal.gov//store/user/aandreas/nanopost/03Sep20v7/VBF_HToInvisible_M125_13TeV_TuneCP5_powheg_pythia8/VBF_HToInvisible_M125_pow_pythia8_2017/200925_184136/0000/tree_1.root"
         ]
     }
+    '''
 
-    years = list(set(map(extract_year, fileset.keys())))
+    fileset = {
+        "stau_nano_100m_100t_Run3Summer2022EE" : [
+            "file:/eos/user/p/ppalit3/Exotic/stau_nanoaod_private/stau_nano_100m_100t_Run3Summer2022EE.root"
+        ],
+        "DYJetsToLL_M-50_Run3Summer2022EE" : [
+            "file:/eos/user/p/ppalit3/Exotic/stau_nanoaod_private/0153df5d-df28-4515-82c2-04f76d82bb34.root"
+        ]
+
+
+    }
+
+
+    years = list(set(map(extract_year_run3, fileset.keys())))
     assert(len(years)==1)
 
     args = parse_commandline()
@@ -32,6 +48,12 @@ def main():
     if processor_class == 'monojet':
         from bucoffea.monojet import monojetProcessor
         processorInstance = monojetProcessor()
+    elif processor_class == 'stau_disp':
+        from bucoffea.stau.stauProcessor import stauProcessor
+        processorInstance = stauProcessor("config/stau_disp.yaml")
+    elif processor_class == 'stau_prompt':
+        from bucoffea.stau.stauProcessor import stauProcessor
+        processorInstance = stauProcessor("config/stau_prompt.yaml")
     elif processor_class == 'vbfhinv':
         from bucoffea.vbfhinv import vbfhinvProcessor
         processorInstance = vbfhinvProcessor()
@@ -60,7 +82,8 @@ def main():
                                     processor_instance=processorInstance,
                                     executor=processor.futures_executor,
                                     executor_args={'workers': 4, 'flatten': True},
-                                    chunksize=500000,
+                                    chunksize=10000,
+                                    #chunksize=72424,
                                     )
         save(output, f"{processor_class}_{dataset}.coffea")
         # Debugging / testing output
